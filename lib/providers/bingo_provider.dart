@@ -6,6 +6,14 @@ class BingoProvider extends ChangeNotifier {
   List<String> NumerosSalidos = [];
   List<String> NumerosBingo =
       List<String>.generate(76, (int index) => '$index');
+  late Timer timer;
+
+  bool _winner = false;
+  bool get winner => _winner;
+  set winner(bool value) {
+    _winner = value;
+    notifyListeners();
+  }
 
   bool _isPlaying = false;
   bool get isPlaying => _isPlaying;
@@ -21,12 +29,21 @@ class BingoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  late Timer timer;
   BingoProvider() {
     NumerosBingo.remove('0');
   }
 
+  ganador() {
+    isPlaying = false;
+    timer.cancel();
+    winner = true;
+    Future.delayed(const Duration(seconds: 15), () {
+      reiniciar();
+    });
+  }
+
   jugar() {
+    winner = false;
     isPlaying = true;
     timer = Timer.periodic(const Duration(seconds: 2), (time) {
       NumerosBingo.shuffle();
@@ -67,6 +84,7 @@ class BingoProvider extends ChangeNotifier {
 
   reiniciar() {
     isPlaying = false;
+    winner = false;
     timer.cancel();
     NumerosBingo = List<String>.generate(76, (int index) => '$index');
     NumerosBingo.remove('0');

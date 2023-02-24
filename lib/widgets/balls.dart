@@ -24,9 +24,11 @@ class Balls extends StatelessWidget {
                   'assets/images/${bingo.numero}.png',
                   scale: 1.2,
                 )
-              : Text(bingo.numero,
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold)),
+              : Center(
+                child: Text(bingo.numero,
+                    style: const TextStyle(
+                        fontSize: 40, fontWeight: FontWeight.bold)),
+              ),
         ),
       ),
     );
